@@ -1,0 +1,36 @@
+class Solution {
+    public boolean isCheck(int i , int sum , String s , int target , int[][] dp) {
+        if(i == s.length()) {
+            if(sum == target)
+              return true;
+            else
+              return false;
+        }
+        if(sum > target)
+          return false;
+        if(dp[i][sum] != -1)
+           return dp[i][sum] == 1;
+        boolean check = false;
+        for (int j = i; j < s.length(); j++) {
+            int add = Integer.parseInt(s.substring(i , j + 1));
+            check = check || isCheck(j + 1 , sum + add , s , target , dp);
+        }
+        if(check == true)
+          dp[i][sum] = 1;
+        else
+          dp[i][sum] = 0;
+        return check;
+    }
+    public int punishmentNumber(int n) {
+        int count = 0;
+        for (int i = 1; i <= n; i++) {          
+           String s = Integer.toString(i * i);
+           int dp[][] = new int[s.length()][i + 1];
+           for(int arr[] : dp)
+             Arrays.fill(arr , -1);
+           if(isCheck(0 , 0 ,  s , i , dp))
+             count += i * i;
+        }
+        return count;
+    }
+}
