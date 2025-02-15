@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isCheck(int i , int sum , int num , int target) {
+        String s = Integer.toString(num);
+        if(i == s.length()) {
+            if(sum == target)
+              return true;
+            else
+              return false;
+        }
+        if(sum > target)
+          return false;
+        boolean check = false;
+        for (int j = i; j < s.length(); j++) {
+            int add = Integer.parseInt(s.substring(i , j + 1));
+            check = check || isCheck(j + 1 , sum + add , num , target);
+            if(check)
+              return check;
+        }
+        return check;
+    }
+    public int punishmentNumber(int n) {
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+           if(isCheck(0 , 0 ,  i * i , i))
+             count += i * i;
+        }
+        return count;
+    }
+}
